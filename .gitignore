@@ -1,2 +1,6 @@
 *.jpg
 *.png
+VIT_Dataset
+Preds
+output
+cropped
