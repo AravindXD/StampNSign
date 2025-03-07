@@ -9,7 +9,7 @@ from ultralytics import YOLO
 
 # Configure page
 st.set_page_config(
-    page_title="YOLO Stamp Processor",
+    page_title="Stamp Processor",
     page_icon="🔍",
     layout="wide"
 )
@@ -116,12 +116,12 @@ if uploaded_files:
         # Display Original Images Carousel (Smaller Size)
         st.write("## Original Images")
         for idx, img_bytes in enumerate(original_images):
-            st.image(img_bytes, caption=f"Original Image {idx+1}", use_column_width=False, width=300)  # Set width to 300 pixels
+            st.image(img_bytes, caption=f"Original Image {idx+1}", use_container_width=False, width=300)  # Set width to 300 pixels
         
         # Display Processed Images Carousel (Smaller Size)
         st.write("## Processed Stamps")
         for idx, img_bytes in enumerate(processed_images):
-            st.image(img_bytes, caption=f"Processed Stamp {idx+1}", use_column_width=False, width=300)  # Set width to 300 pixels
+            st.image(img_bytes, caption=f"Processed Stamp {idx+1}", use_container_width=False, width=300)  # Set width to 300 pixels
         
         # Download functionality
         st.write("### Download Results")
