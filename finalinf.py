@@ -20,34 +20,29 @@ lower_blue = np.array([90, 50, 50])
 upper_blue = np.array([130, 255, 255])
 
 # Get all image paths from the dataset directory
-image_paths = glob.glob(os.path.join(input_dir, "*.jpg"))  # Adjust extension if needed
+image_paths = glob.glob(os.path.join(input_dir, "*.jpg"))
 
 for img_path in image_paths:
     # Load image and run inference
     results = model(img_path)
-
-    # Read original image
     img = cv2.imread(img_path)
 
     for result in results:
-        for box in result.boxes.xyxy:  # Extract bounding box coordinates
+        for box in result.boxes.xyxy:
             x1, y1, x2, y2 = map(int, box)
-
-            # Crop the detected bounding box region
             cropped_img = img[y1:y2, x1:x2]
 
-            # Convert to HSV
+            # Convert to HSV and create mask
             hsv = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2HSV)
-
-            # Apply mask for blue color
             mask = cv2.inRange(hsv, lower_blue, upper_blue)
 
-            # Apply the mask to the cropped image
-            result_img = cv2.bitwise_and(cropped_img, cropped_img, mask=mask)
+            # Create transparent background
+            bgra = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2BGRA)
+            bgra[:, :, 3] = np.where(mask == 255, 255, 0)
 
-            # Save the result image
-            filename = os.path.basename(img_path).replace(".jpg", f"_processed.jpg")
+            # Save as PNG with transparency
+            filename = os.path.basename(img_path).replace(".jpg", "_processed.png")
             output_path = os.path.join(output_dir, filename)
-            cv2.imwrite(output_path, result_img)
+            cv2.imwrite(output_path, bgra)
 
-print("Processing complete! Saved outputs in:", output_dir)
+print("Processing complete! Transparent stamps saved in:", output_dir)
