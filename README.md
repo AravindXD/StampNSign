@@ -27,7 +27,6 @@ This website is a Stamp Processor application built with Streamlit that automati
 
 2. **Model Training**
    - YOLOv8n model training for stamp detection
-   - Training performed in `signdetect.ipynb`
 
    ```python
    from ultralytics import YOLO
